@@ -9,7 +9,6 @@ This project contains a quickstart solution showing how to work with Twilio's cl
 
 ## Technologies Used
 
-***
 This solution is built using the following technologies
 
 - .NET Core 3.0 (ASP.NET Core & Blazor)
@@ -17,8 +16,6 @@ This solution is built using the following technologies
 - XUnit (for Unit Testing)
 
 ## Installation
-
-***
 
 1. Install the .NET Core SDK
 2. Install an IDE of your choice (this solution was built with Visual Studio Community 2019)
