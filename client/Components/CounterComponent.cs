@@ -1,8 +1,6 @@
-using Microsoft.AspNetCore.Components;
-
-namespace client.Components
+namespace client.Pages
 {
-    public class CounterComponent : ComponentBase
+    public partial class Counter
     {
         public int currentCount = 0;
 

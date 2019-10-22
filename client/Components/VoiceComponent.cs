@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Components;
 
-namespace client.Components
+namespace client.Pages
 {
-    public class VoiceComponent : ComponentBase
+    public partial class Voice
     {
         
     }
