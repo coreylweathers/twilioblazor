@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using shared.Models;
 
 namespace api
 {
@@ -26,6 +27,9 @@ namespace api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.Configure<TwilioAccountSettings>(Configuration.GetSection("Values:Twilio:Account"));
+            services.Configure<TwilioChatSettings>(Configuration.GetSection("Values:Twilio:ChatService"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
