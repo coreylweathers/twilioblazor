@@ -18,12 +18,14 @@ namespace tests.ApiTests
         private readonly Mock<ILogger<TokenController>> _loggerMock;
         private readonly Mock<IOptionsMonitor<TwilioAccountSettings>> _twilioSettingsMock;
         private readonly Mock<IOptionsMonitor<TwilioChatSettings>> _chatSettingsMock;
+        private readonly Mock<IOptionsMonitor<TwilioCallSettings>> _callSettingsMock;
 
         public TokenControllerTests()
         {
             _loggerMock = new Mock<ILogger<TokenController>>();
             _chatSettingsMock = new Mock<IOptionsMonitor<TwilioChatSettings>>();
             _twilioSettingsMock = new Mock<IOptionsMonitor<TwilioAccountSettings>>();
+            _callSettingsMock = new Mock<IOptionsMonitor<TwilioCallSettings>>();
         }
 
 
@@ -35,7 +37,7 @@ namespace tests.ApiTests
 
             _twilioSettingsMock.SetupGet(x => x.CurrentValue).Returns(new TwilioAccountSettings { AccountSid = "AC603206310c6c40229cce6adb9c3ad18a", AuthToken = "37c04933621a437cb9ade0637a44d1ab" });
 
-            _controller = new TokenController(_loggerMock.Object, _twilioSettingsMock.Object, _chatSettingsMock.Object);
+            _controller = new TokenController(_loggerMock.Object, _twilioSettingsMock.Object, _chatSettingsMock.Object, _callSettingsMock.Object);
 
             // ACT
             var result = await _controller.PostChatToken();
@@ -52,7 +54,7 @@ namespace tests.ApiTests
 
             _twilioSettingsMock.SetupGet(x => x.CurrentValue).Returns(new TwilioAccountSettings { AccountSid = string.Empty, AuthToken = string.Empty });
 
-            _controller = new TokenController(_loggerMock.Object, _twilioSettingsMock.Object, _chatSettingsMock.Object);
+            _controller = new TokenController(_loggerMock.Object, _twilioSettingsMock.Object, _chatSettingsMock.Object, _callSettingsMock.Object);
 
             // ACT
             // ASSERT

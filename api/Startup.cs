@@ -30,6 +30,7 @@ namespace api
 
             services.Configure<TwilioAccountSettings>(Configuration.GetSection("Values:Twilio:Account"));
             services.Configure<TwilioChatSettings>(Configuration.GetSection("Values:Twilio:ChatService"));
+            services.Configure<TwilioCallSettings>(Configuration.GetSection("Values:Twilio:CallSettings"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

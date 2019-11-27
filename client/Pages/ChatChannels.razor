@@ -1,0 +1,15 @@
+﻿<p>Channels: </p>
+<SpaLoader IsLoading="Channels == null">
+    <LoadingTemplate>
+        <p>There are no channels yet...</p>
+    </LoadingTemplate>
+    <ContentTemplate>
+        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            @foreach (var channel in Channels)
+            {
+                <a class="nav-link" id=@($"v-pills-{channel.UniqueName.ToLower()}") data-toggle="pill" role="tab" aria-selected="undefined" href=@($"#v-pills-{channel.UniqueName.ToLower()}")>@channel.FriendlyName</a>
+            }
+            <a class="nav-link" id="v-pills-newchannel" data-toggle="pill" role="tab" aria-selected="true" href="#v-pills-newchannel">+ Add New Channel</a>
+        </div>
+    </ContentTemplate>
+</SpaLoader>

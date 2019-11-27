@@ -2,3 +2,32 @@
 
 <h2>Call</h2>
 <p>This is our call page</p>
+
+<EditForm Model="@Input" OnValidSubmit="@InitiatePhoneCall">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <p>
+        <label for="phoneNumber">Enter Phone Number:</label>
+        <InputText id="phoneNumber" @bind-Value="@Input.PhoneNumber"></InputText>
+        <button type="submit" class="btn btn-primary" disabled=@IsDialDisabled>DIAL</button>
+        <button type="button" id="endBtn" class="btn btn-primary" disabled=@IsEndDisabled @onclick="EndPhoneCall">END</button>
+        <button type="button" id="clearBtn" class="btn btn-primary" disabled=@IsClearDisabled @onclick="ClearPhoneNumber">CLEAR</button>
+    </p>
+</EditForm>
+
+<hr />
+
+@if (Logs.Count == 0)
+{
+    <p>No Logs available yet</p>
+}
+else
+{
+    <ul>
+        @foreach (var log in Logs)
+        {
+            <li>@log</li>
+        }
+    </ul>
+}

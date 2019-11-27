@@ -1,4 +1,27 @@
-@page "/chat"
+﻿@page "/chat"
 
 <h2>Chat</h2>
 <p>This is our chat page</p>
+<div class="input-group mb-2">
+    <div class="input-group-prepend">
+        <span class="input-group-text">Username: </span>
+    </div>
+    <input type="text" id="userName" @bind="_username" readonly="@_isLogOnEnabled" />
+    <button class="btn btn-primary" @onclick="LogOn" disabled="@_isLogOnEnabled">Log on</button>
+    <button class="btn btn-primary" @onclick="LogOff" disabled="@_isLogOffEnabled">Log out</button>
+</div>
+@if (Channels.Count == 0 || Channels == null)
+{
+    <p>Loading chatroom...</p>
+}
+else
+{
+    <div class="row rounded border">
+        <div class="col-3">
+            <ChatChannels />
+        </div>
+        <div class="col border rounded-top rounded bottom d-flex">
+            <ChatMessages @ref="_chatMessages" />
+        </div>
+    </div>
+}

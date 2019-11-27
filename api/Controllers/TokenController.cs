@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using shared.Models;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Twilio.Jwt;
 using Twilio.Jwt.AccessToken;
+using Twilio.Jwt.Client;
 
 namespace api.Controllers
 {
@@ -19,12 +18,14 @@ namespace api.Controllers
         private readonly ILogger<TokenController> _logger;
         private readonly ITwilioSettings _twilioSettings;
         private readonly ITwilioServiceSettings _twilioServiceSettings;
+        private readonly TwilioCallSettings _twilioCallSettings;
                
-        public TokenController(ILogger<TokenController> logger,IOptionsMonitor<TwilioAccountSettings> accountOptionsAccessor, IOptionsMonitor<TwilioChatSettings> chatOptionsAccessor)
+        public TokenController(ILogger<TokenController> logger,IOptionsMonitor<TwilioAccountSettings> accountOptionsAccessor, IOptionsMonitor<TwilioChatSettings> chatOptionsAccessor, IOptionsMonitor<TwilioCallSettings> callOptionsAccessor)
         {
             _logger = logger;
             _twilioSettings = accountOptionsAccessor.CurrentValue;
             _twilioServiceSettings = chatOptionsAccessor.CurrentValue;
+            _twilioCallSettings = callOptionsAccessor.CurrentValue;
         }
 
         [HttpPost("chat")]
@@ -58,6 +59,19 @@ namespace api.Controllers
             _logger.LogInformation("Got access token", token.ToJwt());
 
             return await Task.FromResult(new ContentResult { Content = token.ToJwt(), ContentType = "application/jwt", StatusCode = 200 });
+        }
+
+        [HttpPost("call")]
+        public async Task<IActionResult> PostCallToken()
+        {
+            var scopes = new HashSet<IScope>
+            {
+                new OutgoingClientScope(_twilioCallSettings.AppSid),
+                new IncomingClientScope("tester")
+            };
+
+            var capability = new ClientCapability(_twilioSettings.AccountSid, _twilioSettings.AuthToken, scopes: scopes);
+            return await Task.FromResult(Content(capability.ToJwt(), "application/jwt"));
         }
 
         private bool IsValidSettings<T>(T settings) where T : ITwilioSettings
